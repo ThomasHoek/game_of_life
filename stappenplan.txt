@@ -1,5 +1,8 @@
-1R) De simulatie doet niets, en het is geen game of life.
+1R) De cel gaat dood als hij alleen is, er gebeurt niets.
 1G) Code toevoegen dat alles dood gaat.
 1B) Code als er een buur is dan leven, anders dood.
 
-2R)
+2R) De cel gaat dood als er teveel buren zijn.
+2G) Code toevoegen dat de cel dood gaat met meer dan 3 buren.
+2B) Code is al goed.
+
