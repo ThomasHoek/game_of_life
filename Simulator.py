@@ -26,7 +26,10 @@ class Simulator:
         """
         self.generation += 1
 
-        #TODO: Do something to evolve the generation
+        for i in range(self.world.height):
+            for j in range(self.world.width):
+                self.world.set(i,j,0)
+
 
         return self.world
 
