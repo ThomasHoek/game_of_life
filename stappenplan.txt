@@ -1,2 +1,5 @@
 1R) De simulatie doet niets, en het is geen game of life.
 1G) Code toevoegen dat alles dood gaat.
+1B) Code als er een buur is dan leven, anders dood.
+
+2R)

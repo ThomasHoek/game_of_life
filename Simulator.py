@@ -28,7 +28,12 @@ class Simulator:
 
         for i in range(self.world.height):
             for j in range(self.world.width):
-                self.world.set(i,j,0)
+                value = self.world.get(i,j)
+                neighbours = self.world.get_neighbours(i,j)
+                if sum(neighbours) > 1:
+                    self.world.set(i,j,value)
+                else:
+                    self.world.set(i,j,0)
 
 
         return self.world
