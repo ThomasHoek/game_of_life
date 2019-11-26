@@ -2,7 +2,13 @@
 1G) Code toevoegen dat alles dood gaat.
 1B) Code als er een buur is dan leven, anders dood.
 
-2R) De cel gaat dood als er teveel buren zijn.
+2R) De cel gaat dood als er teveel buren zijn, alle cellen zonder buren gaan dood, maar cellen met teveel buren blijven leven.
 2G) Code toevoegen dat de cel dood gaat met meer dan 3 buren.
 2B) Code is al goed.
+
+3R) De cel gaat leven als het 3 buren heeft, nu gaat hij dood.
+3G) De cel gaat leven met 3 of meer buren.
+3B) hij update een cel meteen en daarom gaan cellen weg die horen te leven. Nu update aan het einde.
+
+------ normale game of life -----
 

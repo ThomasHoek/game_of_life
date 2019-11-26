@@ -1,8 +1,8 @@
-from unittest import TestCase
+import unittest
 from World import *
 
 
-class TestWorld(TestCase):
+class TestWorld(unittest.TestCase):
     """
     Test cases for ``World`` data type.
     """
@@ -43,3 +43,13 @@ class TestWorld(TestCase):
         neighbours = self.world.get_neighbours(x, y)
         self.assertEqual(8, len(neighbours))
         self.assertIn(value, neighbours)
+
+
+    def test_try_death(self):
+        x, y = 2 , 0
+        self.world.set(x,y,1)
+        
+
+    
+if __name__ == '__main__':
+    unittest.main()
