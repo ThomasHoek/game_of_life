@@ -18,13 +18,22 @@ class Simulator:
         else:
             self.world = world
 
-    def update(self) -> World:
+    def update(self, inputmain = "B3/S23") -> World:
         """
         Updates the state of the world to the next generation. Uses rules for evolution.
 
         :return: New state of the world.
         """
         self.generation += 1
+
+        try:
+            birth , survival = inputmain.split("/")
+            birth = birth[1:]
+            survival = survival[1:]
+        except:
+            birth = "3"
+            survival = "23"
+
 
         listgrid = []
         for y in range(self.world.height):
@@ -33,16 +42,16 @@ class Simulator:
                 value = self.world.get(x,y)
                 zeros = self.world.get_neighbours(x,y).count(0)
                 
-                if value and ((8 - zeros) == 2 or (8-zeros) == 3):
+                if value and str(8 - zeros) in survival:
                     listgrid[y].append(value)
-                elif (8-zeros) == 3:
+                elif str(8-zeros) in birth:
                     listgrid[y].append(1)
                 else:
                     listgrid[y].append(0)
 
         for y in range(self.world.height):
             for x in range(self.world.width):
-                self.world.set(x,y, listgrid[y][x])     
+                self.world.set(x,y, listgrid[y][x])  
 
         return self.world
 

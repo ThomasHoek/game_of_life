@@ -101,7 +101,44 @@ class TestWorld(unittest.TestCase):
             for x in range(self.world.width):
                 self.world.set(x,y, listgrid[y][x])  
         
+
+    def test_different_amount_neighbours(self):
+        x,y = 0,0
+        self.world.set(x,y,1)
+        zeros = self.world.get_neighbours(x,y).count(0)
         
+        inputmain = "B358/S237"
+
+        birth , survival = inputmain.split("/")
+        birth = birth[1:]
+        survival = survival[1:]
+        
+
+        listgrid = []
+        for y in range(self.world.height):
+            listgrid.append([])
+            for x in range(self.world.width):
+                value = self.world.get(x,y)
+                zeros = self.world.get_neighbours(x,y).count(0)
+                
+                if value and str(8 - zeros) in survival:
+                
+                    listgrid[y].append(value)
+
+                elif str(8-zeros) in birth:
+                
+                    listgrid[y].append(1)
+                else:
+                    listgrid[y].append(0)
+
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x,y, listgrid[y][x])  
+
+
+
+
+
 
     
 if __name__ == '__main__':
