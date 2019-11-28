@@ -26,7 +26,23 @@ class Simulator:
         """
         self.generation += 1
 
-        # TODO: add code for update():
+        listgrid = []
+        for y in range(self.world.height):
+            listgrid.append([])
+            for x in range(self.world.width):
+                value = self.world.get(x,y)
+                zeros = self.world.get_neighbours(x,y).count(0)
+                
+                if value and ((8 - zeros) == 2 or (8-zeros) == 3):
+                    listgrid[y].append(value)
+                elif (8-zeros) == 3:
+                    listgrid[y].append(1)
+                else:
+                    listgrid[y].append(0)
+
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x,y, listgrid[y][x])     
 
         return self.world
 

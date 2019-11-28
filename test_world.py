@@ -47,7 +47,60 @@ class TestWorld(unittest.TestCase):
 
     def test_try_death(self):
         x, y = 2 , 0
+        value = self.world.get(x,y)
+        self.world.set(x,y,0)
+
+
+    def test_neighbours_then_death(self):
+        x, y = 2 , 0
+        value = self.world.get(x,y)
+        zeros = self.world.get_neighbours(x,y).count(0)
+        if (8-zeros) == 2 or  (8-zeros) == 3:
+            self.world.set(x,y,1)
+        else:
+            self.world.set(x,y,0)
+
+    def test_allgrid(self):
+        x,y = 0,0
         self.world.set(x,y,1)
+        listgrid = []
+        for y in range(self.world.height):
+            listgrid.append([])
+            for x in range(self.world.width):
+                value = self.world.get(x,y)
+                zeros = self.world.get_neighbours(x,y).count(0)
+                
+                if (8 - zeros) == 2 or (8-zeros) == 3:
+                    listgrid[y].append(1)
+                else:
+                    listgrid[y].append(0)
+
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x,y, listgrid[y][x])
+
+    def test_add_cells(self):
+        x,y = 0,0
+        self.world.set(x,y,1)
+
+        listgrid = []
+        for y in range(self.world.height):
+            listgrid.append([])
+            for x in range(self.world.width):
+                value = self.world.get(x,y)
+                zeros = self.world.get_neighbours(x,y).count(0)
+                
+                if value and ((8 - zeros) == 2 or (8-zeros) == 3):
+                    listgrid[y].append(value)
+                elif (8-zeros) == 3:
+                    listgrid[y].append(1)
+                else:
+                    listgrid[y].append(0)
+
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x,y, listgrid[y][x])  
+        
         
 
     
