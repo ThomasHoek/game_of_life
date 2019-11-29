@@ -109,5 +109,25 @@ class TestWorld(unittest.TestCase):
         get_value = self.world.get(x,y)
         self.assertEqual(get_value,value)  
     
+
+    def test_birth(self):
+        x,y = 2,2
+        value = 0
+        self.world.set(x,y-1,value)
+        self.world.set(x,y+1,value)
+        self.world.set(x-1,y,value)
+        
+        
+        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+        if (count_zeros < 2) or (count_zeros > 3):
+            self.world.set(x,y,0)
+        elif (count_zeros > 2) or (count_zeros < 4):
+            self.world.set(x,y,1)
+        else:
+            self.world.set(x,y,value)
+
+        get_value = self.world.get(x,y)
+        self.assertEqual(get_value,1)  
+
 if __name__ == '__main__':
     unittest.main()
