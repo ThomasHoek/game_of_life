@@ -7,13 +7,17 @@ VISUALISATION=True
 
 if __name__ == "__main__":
     w = World(50)
-    sim = Simulator(w)
     inputmain = input("What birth and survival?")
+    age = int(input("What's the age"))
+
+    sim = Simulator(w,inputmain, age)
+    
+    
     if VISUALISATION:
         vis = Visualisation(sim)
     else:
         while True:
             # Create new world and print to screen
-            print(sim.update(inputmain))
+            print(sim.update())
             # slow down simulation
             time.sleep(0.5)
