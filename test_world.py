@@ -44,6 +44,13 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(8, len(neighbours))
         self.assertIn(value, neighbours)
 
+    def test_death(self):
+        x,y = 2,0
+        value = 3
+        self.world.set(x,y,value)
+        
+        get_value = self.world.get(x,y)
+        self.assertEqual(get_value,0)
 
    
 
