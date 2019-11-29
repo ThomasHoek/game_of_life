@@ -183,7 +183,7 @@ class TestWorld(unittest.TestCase):
     def test_input_birth(self):
         
         x1,y1 = 5,5
-        birth = "B1"
+
         birth = self.birth[1:]
 
 
@@ -224,8 +224,9 @@ class TestWorld(unittest.TestCase):
         
         x1,y1 = 5,5
         x2,y2 = 5,6
-        birth = "B1"
+        
         birth = self.birth[1:]
+        survival = self.survival[1:]
 
 
         value = 1
@@ -238,8 +239,8 @@ class TestWorld(unittest.TestCase):
             coordinatelist.append([])
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
-
-                if value and (str(count_zeros) not in birth):
+                
+                if value and (str(count_zeros) not in survival):
                     coordinatelist[y].append(0)
 
                 elif str(count_zeros) in birth:
@@ -254,10 +255,10 @@ class TestWorld(unittest.TestCase):
                 self.world.set(x,y,coordinatelist[y][x])
 
         var_get_survival1 = self.world.get(x1,y1)
-        self.assertEqual(var_get_survival1,0)  
+        self.assertEqual(var_get_survival1,1)  
 
         var_get_survival2 = self.world.get(x2,y2)
-        self.assertEqual(var_get_survival2,0)  
+        self.assertEqual(var_get_survival2,1)  
         
 
 if __name__ == '__main__':
