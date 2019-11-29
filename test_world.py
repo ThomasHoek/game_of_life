@@ -182,8 +182,8 @@ class TestWorld(unittest.TestCase):
         
         x1,y1 = 5,5
         birth = "B1"
+        birth = birth[1:]
 
-        #  ---     -> should return |
 
         value = 1
         self.world.set(x1,y1,value)
@@ -194,10 +194,11 @@ class TestWorld(unittest.TestCase):
             coordinatelist.append([])
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
-                if value and ((count_zeros < 2) or (count_zeros > 3)):
+
+                if value and (str(count_zeros) not in birth):
                     coordinatelist[y].append(0)
 
-                elif ((count_zeros >= 2) or (count_zeros < 4)):
+                elif str(count_zeros) in birth:
                     coordinatelist[y].append(1)
 
                 else:
@@ -213,6 +214,8 @@ class TestWorld(unittest.TestCase):
         var_get_neighbours = self.world.get_neighbours(x1,y1).count(0)
         self.assertEqual(var_get_neighbours,0)  
         
+        var_get_birth = self.world.get(x1,y1)
+        self.assertEqual(var_get_birth,0)  
         
 
 if __name__ == '__main__':
