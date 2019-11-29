@@ -6,10 +6,10 @@ import time
 VISUALISATION=True
 
 if __name__ == "__main__":
-    w = World(50)
+    w = World(25)
     
-
-    sim = Simulator(w)
+    BSA = input("What is de birth and survival and age\n")
+    sim = Simulator(w,BSA)
     
     
     if VISUALISATION:
