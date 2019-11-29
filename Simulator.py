@@ -30,46 +30,6 @@ class Simulator:
         """
         self.generation += 1
 
-        try:
-            birth , survival = self.inputmain.split("/")
-            birth = birth[1:]
-            survival = survival[1:]
-        except:
-            birth = "3"
-            survival = "23"
-
-        listgrid = []
-
-
-
-
-        for y in range(self.world.height):
-            listgrid.append([])
-            for x in range(self.world.width):
-
-                number_fertile = str(sum(1 if ((x > 2) and (x < (self.age - 2))) else 0 for x in self.world.get_neighbours(x,y)))
-                value = self.world.get(x,y)
-                zeros = self.world.get_neighbours(x,y).count(0)
-                
-                if value and str(8 - zeros) in survival:    
-                    # survival behoud
-                    listgrid[y].append(value)
-
-                
-                elif number_fertile in birth:
-                # elif str(8-zeros) in birth:
-                    listgrid[y].append(self.age)
-
-                elif (value == 0):
-                    listgrid[y].append(0)
-
-                else:
-                    listgrid[y].append(value-1)
-
-        for y in range(self.world.height):
-            for x in range(self.world.width):
-                self.world.set(x,y, listgrid[y][x])  
-
         return self.world
 
     def get_generation(self):
