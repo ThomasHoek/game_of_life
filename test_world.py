@@ -264,25 +264,28 @@ class TestWorld(unittest.TestCase):
     def test_decay(self):
         
         x1,y1 = 5,5
-        x2,y2 = 5,6
+
+        x2,y2 = 2,2
+        
         
         birth = self.birth[1:]
         survival = self.survival[1:]
 
-
         value = 6
-        self.world.set(x1,y1,value)
-        self.world.set(x2,y2,value)
+        value2 = 1
 
-        
+        self.world.set(x1,y1,value)
+        self.world.set(x2,y2,value2)
+
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
                 
+                value = self.world.get(x,y)
                 if value and (str(count_zeros) not in survival):
-                    coordinatelist[y].append(0)
+                    coordinatelist[y].append(value - 1)
 
                 elif str(count_zeros) in birth:
                     coordinatelist[y].append(1)
@@ -295,12 +298,16 @@ class TestWorld(unittest.TestCase):
             for x in range(self.world.width):
                 self.world.set(x,y,coordinatelist[y][x])
 
-        var_get_survival1 = self.world.get(x1,y1)
-        self.assertEqual(var_get_survival1,5)  
+        var_get_decay = self.world.get(x1,y1)
+        self.assertEqual(var_get_decay,5)  
 
-        var_get_survival2 = self.world.get(x2,y2)
-        self.assertEqual(var_get_survival2,5)  
+        var_get_decay2 = self.world.get(x2,y2)
+        self.assertEqual(var_get_decay2, 0)  
+
+
         
 
 if __name__ == '__main__':
     unittest.main()
+
+
