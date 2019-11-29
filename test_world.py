@@ -218,6 +218,46 @@ class TestWorld(unittest.TestCase):
         
         var_get_birth = self.world.get(x1,y1)
         self.assertEqual(var_get_birth,0)  
+
+
+    def test_input_survival(self):
+        
+        x1,y1 = 5,5
+        x2,y2 = 5,6
+        birth = "B1"
+        birth = self.birth[1:]
+
+
+        value = 1
+        self.world.set(x1,y1,value)
+        self.world.set(x2,y2,value)
+
+        
+        coordinatelist = []
+        for y in range(self.world.height):
+            coordinatelist.append([])
+            for x in range(self.world.width):
+                count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+
+                if value and (str(count_zeros) not in birth):
+                    coordinatelist[y].append(0)
+
+                elif str(count_zeros) in birth:
+                    coordinatelist[y].append(1)
+
+                else:
+                    coordinatelist[y].append(value)
+
+
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x,y,coordinatelist[y][x])
+
+        var_get_survival1 = self.world.get(x1,y1)
+        self.assertEqual(var_get_survival1,0)  
+
+        var_get_survival2 = self.world.get(x2,y2)
+        self.assertEqual(var_get_survival2,0)  
         
 
 if __name__ == '__main__':
