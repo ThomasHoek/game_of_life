@@ -50,10 +50,15 @@ class TestWorld(unittest.TestCase):
         self.assertIn(value, neighbours)
 
     def test_death(self):
+        '''
+        Tests if a cell dies with no neighbours
+        '''
+
         x, y = 2, 0
         value = 3
         self.world.set(x, y, value)
 
+        # count the amount of zero's in the list.
         if (8 - self.world.get_neighbours(x, y).count(0)) == 0:
             self.world.set(x, y, 0)
 
@@ -61,6 +66,9 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value, 0)
 
     def test_less_then_two_neighbours(self):
+        '''
+        Test for death if less then two neighbours
+        '''
         x, y = 2, 2
         value = 3
         self.world.set(x, y, value)
@@ -75,6 +83,9 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value, 0)
 
     def test_die_more_then_three(self):
+        '''
+        Tests if cell die if more then three neighbours
+        '''
         x, y = 2, 2
         value = 3
         self.world.set(x, y, value)
@@ -93,6 +104,9 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value, 0)
 
     def test_survival(self):
+        '''
+        Test if a cell survives if it has 3 neighbours
+        '''
         x, y = 2, 2
         value = 3
         self.world.set(x, y, value)
@@ -101,6 +115,8 @@ class TestWorld(unittest.TestCase):
         self.world.set(x-1, y, value)
 
         count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+
+        # if amount of zeros in the code is less then two, or more then 3 then death.
         if (count_zeros < 2) or (count_zeros > 3):
             self.world.set(x, y, 0)
         else:
@@ -110,6 +126,10 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value, value)
 
     def test_birth(self):
+        '''
+        Test if a cell gives birth to a new cell.
+        '''
+
         x, y = 2, 2
         value = 0
         self.world.set(x, y-1, value)
@@ -117,8 +137,11 @@ class TestWorld(unittest.TestCase):
         self.world.set(x-1, y, value)
 
         count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+        # if a cell is alive (value) check if it survives
         if value and ((count_zeros < 2) or (count_zeros > 3)):
             self.world.set(x, y, 0)
+
+        # if te amount of zeros are more then two or less then 4. Add a cell.
         elif ((count_zeros >= 2) or (count_zeros < 4)):
             self.world.set(x, y, 1)
         else:
@@ -128,6 +151,9 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value, 1)
 
     def test_entire_grid(self):
+        '''
+        Tests if the entire world will be looped.
+        '''
         x1, y1 = 2, 5
         x2, y2 = 3, 5
         x3, y3 = 4, 5
@@ -140,11 +166,15 @@ class TestWorld(unittest.TestCase):
         self.world.set(x3, y3, value)
 
         coordinatelist = []
+        # go throught he height of the world first
         for y in range(self.world.height):
             coordinatelist.append([])
+
+            # Then though the width. Every Row is a list in which the values of the coordinates are.
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
-                if value and ((count_zeros < 2) or (count_zeros > 3)):
+                curr_value = self.world.get(x, y)
+                if curr_value and ((count_zeros < 2) or (count_zeros > 3)):
                     coordinatelist[y].append(0)
 
                 elif ((count_zeros >= 2) or (count_zeros < 4)):
@@ -153,6 +183,7 @@ class TestWorld(unittest.TestCase):
                 else:
                     coordinatelist[y].append(value)
 
+        # which in the end get set.
         for y in range(self.world.height):
             for x in range(self.world.width):
                 self.world.set(x, y, coordinatelist[y][x])
@@ -175,6 +206,7 @@ class TestWorld(unittest.TestCase):
         x1, y1 = 5, 5
 
         birth = self.birth[1:]
+        # add a self birth
 
         value = 1
         self.world.set(x1, y1, value)
@@ -184,10 +216,12 @@ class TestWorld(unittest.TestCase):
             coordinatelist.append([])
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+                curr_value = self.world.get(x, y)
 
-                if value and (str(count_zeros) not in birth):
+                if curr_value and ((count_zeros < 2) or (count_zeros > 3)):
                     coordinatelist[y].append(0)
 
+                # checks if the amount of neighbours is in births.
                 elif str(count_zeros) in birth:
                     coordinatelist[y].append(1)
 
@@ -221,8 +255,9 @@ class TestWorld(unittest.TestCase):
             coordinatelist.append([])
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
-
-                if value and (str(count_zeros) not in survival):
+                curr_value = self.world.get(x, y)
+                # checks if the cell is alive and the amount of neighbours are in survival.
+                if curr_value and (str(count_zeros) not in survival):
                     coordinatelist[y].append(0)
 
                 elif str(count_zeros) in birth:
@@ -261,15 +296,17 @@ class TestWorld(unittest.TestCase):
             for x in range(self.world.width):
                 count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
 
-                value = self.world.get(x, y)
+                curr_value = self.world.get(x, y)
                 if value and (str(count_zeros) not in survival):
-                    coordinatelist[y].append(value - 1)
+                    coordinatelist[y].append(curr_value - 1)
+                    # a cells current age will be lowered by one
 
                 elif str(count_zeros) in birth:
                     coordinatelist[y].append(1)
 
                 else:
-                    coordinatelist[y].append(value)
+                    coordinatelist[y].append(curr_value)
+                    # else it stays the same age.
 
         for y in range(self.world.height):
             for x in range(self.world.width):
@@ -296,42 +333,45 @@ class TestWorld(unittest.TestCase):
         self.world.set(x1, y1, value)
         self.world.set(x2, y2, value2)
 
-        
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
-                
 
                 neighbour_list = self.world.get_neighbours(x, y)
                 count_zeros = (8 - neighbour_list.count(0))
 
                 curr_value = self.world.get(x, y)
 
-                
                 if curr_value and (str(count_zeros) not in survival):
                     coordinatelist[y].append(curr_value - 1)
 
-                elif str(sum([1 if (x > 2 and x < (age-2) ) else 0 for x in neighbour_list])) in birth:
-                    coordinatelist[y].append(age)
-
+                # With list comprehention it checks the amount of numbers that are between age min+2 and max+2
+                # if that number is in birth it accepts.
                 else:
-                    coordinatelist[y].append(curr_value)
+                    total_fertile = str(
+                        sum([1 if (x > 2 and x < (age-2)) else 0 for x in neighbour_list]))
+                    if (total_fertile in birth):
+                        coordinatelist[y].append(age)
+
+                    else:
+                        coordinatelist[y].append(curr_value)
 
         for y in range(self.world.height):
             for x in range(self.world.width):
                 self.world.set(x, y, coordinatelist[y][x])
 
-
-
         var_get_birth = self.world.get_neighbours(x1, y1).count(0)
         self.assertEqual(var_get_birth, 8)
 
-        var_get_survival = self.world.get(x1,x2)
+        var_get_survival = self.world.get(x1, x2)
         self.assertEqual(var_get_survival, 0)
 
         var_get_birth2 = self.world.get_neighbours(x2, y2).count(0)
         self.assertEqual(var_get_birth2, 0)
+
+
+        
 
 
 if __name__ == '__main__':
