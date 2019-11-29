@@ -184,7 +184,7 @@ class TestWorld(unittest.TestCase):
         
         x1,y1 = 5,5
         birth = "B1"
-        birth = birth[1:]
+        birth = self.birth[1:]
 
 
         value = 1
