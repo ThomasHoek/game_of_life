@@ -176,6 +176,43 @@ class TestWorld(unittest.TestCase):
         get_value_new2 = self.world.get(x1,y1-1)        
         self.assertEqual(get_value_new1,1)  
         self.assertEqual(get_value_new2,1)  
+    
+
+    def test_input_birth(self):
+        
+        x1,y1 = 5,5
+        birth = "B1"
+
+        #  ---     -> should return |
+
+        value = 1
+        self.world.set(x1,y1,value)
+
+        
+        coordinatelist = []
+        for y in range(self.world.height):
+            coordinatelist.append([])
+            for x in range(self.world.width):
+                count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+                if value and ((count_zeros < 2) or (count_zeros > 3)):
+                    coordinatelist[y].append(0)
+
+                elif ((count_zeros >= 2) or (count_zeros < 4)):
+                    coordinatelist[y].append(1)
+
+                else:
+                    coordinatelist[y].append(value)
+
+
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x,y,coordinatelist[y][x])
+
+
+
+        var_get_neighbours = self.world.get_neighbours(x1,y1).count(0)
+        self.assertEqual(var_get_neighbours,0)  
+        
         
 
 if __name__ == '__main__':
