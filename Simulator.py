@@ -18,10 +18,13 @@ class Simulator:
         try:
             self.birth, self.survival,self.age = BSA.split("/")
         except:
-            print("error in birth, survival and age input")
-            self.birth = "B3"
-            self.survival = "S23"
-            self.age = "A1"
+            try:
+                self.birth, self.survival = BSA.split("/")
+            except:
+                print("error in birth, survival and age input")
+                self.birth = "B3"
+                self.survival = "S23"
+                self.age = "A1"
             
         if world == None:
             self.world = World(20)
