@@ -81,13 +81,8 @@ class TestWorld(unittest.TestCase):
         self.world.set(x-1,y,value)
         self.world.set(x+1,y,value)
         
-        
-        if (8 - self.world.get_neighbours(x,y).count(0)) < 2:
-            self.world.set(x,y,0)        
-        else:
-            self.world.set(x,y,value)
-    
-        if (8 - self.world.get_neighbours(x,y).count(0)) > 3:
+        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+        if (count_zeros < 2) and (count_zeros > 3):
             self.world.set(x,y,0)        
         else:
             self.world.set(x,y,value)
