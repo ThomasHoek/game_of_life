@@ -6,7 +6,7 @@ class Simulator:
     Read https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life for an introduction to Conway's Game of Life.
     """
 
-    def __init__(self, world = None, inputmain = "B3/S23", age = 1):
+    def __init__(self, world = None):
         """
         Constructor for Game of Life simulator.
 
@@ -18,11 +18,9 @@ class Simulator:
         else:
             self.world = world
 
-        self.inputmain = inputmain
-        self.age = age
 
     
-    def update(self, inputmain = "B3/S23", age =1) -> World:
+    def update(self) -> World:
         """
         Updates the state of the world to the next generation. Uses rules for evolution.
 

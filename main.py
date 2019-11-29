@@ -7,10 +7,9 @@ VISUALISATION=True
 
 if __name__ == "__main__":
     w = World(50)
-    inputmain = input("What birth and survival?")
-    age = int(input("What's the age"))
+    
 
-    sim = Simulator(w,inputmain, age)
+    sim = Simulator(w)
     
     
     if VISUALISATION:
