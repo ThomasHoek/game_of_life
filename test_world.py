@@ -56,7 +56,18 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value,0)
 
 
-    def 
+    def test_less_then_two_neighbours(self):
+        x,y = 2,2
+        value = 3
+        self.world.set(x,y,value)
+        self.world.set(x,y-1,value)
+        
+        
+        if (8 - self.world.get_neighbours(x,y).count(0)) == 0:
+            self.world.set(x,y,0)        
+    
+        get_value = self.world.get(x,y)
+        self.assertEqual(get_value,0)  
    
 
 
