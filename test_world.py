@@ -6,6 +6,7 @@ class TestWorld(unittest.TestCase):
     """
     Test cases for ``World`` data type.
     """
+
     def setUp(self):
         """
         Common setup for running tests
@@ -13,7 +14,7 @@ class TestWorld(unittest.TestCase):
         self.width, self.height = 10, 12
         self.world = World(self.width, self.height)
         input_BS = "B1/S1"
-        self.birth , self.survival = input_BS.split("/")
+        self.birth, self.survival = input_BS.split("/")
 
     def test_set(self):
         """
@@ -47,108 +48,100 @@ class TestWorld(unittest.TestCase):
         self.assertIn(value, neighbours)
 
     def test_death(self):
-        x,y = 2,0
+        x, y = 2, 0
         value = 3
-        self.world.set(x,y,value)
-        
-        if (8 - self.world.get_neighbours(x,y).count(0)) == 0:
-            self.world.set(x,y,0)        
-    
-        get_value = self.world.get(x,y)
-        self.assertEqual(get_value,0)
+        self.world.set(x, y, value)
 
+        if (8 - self.world.get_neighbours(x, y).count(0)) == 0:
+            self.world.set(x, y, 0)
+
+        get_value = self.world.get(x, y)
+        self.assertEqual(get_value, 0)
 
     def test_less_then_two_neighbours(self):
-        x,y = 2,2
+        x, y = 2, 2
         value = 3
-        self.world.set(x,y,value)
-        self.world.set(x,y-1,value)
-        
-        
-        if (8 - self.world.get_neighbours(x,y).count(0)) < 2:
-            self.world.set(x,y,0)        
+        self.world.set(x, y, value)
+        self.world.set(x, y-1, value)
+
+        if (8 - self.world.get_neighbours(x, y).count(0)) < 2:
+            self.world.set(x, y, 0)
         else:
-            self.world.set(x,y,value)
-    
-        get_value = self.world.get(x,y)
-        self.assertEqual(get_value,0)  
-   
+            self.world.set(x, y, value)
+
+        get_value = self.world.get(x, y)
+        self.assertEqual(get_value, 0)
 
     def test_die_more_then_three(self):
-        x,y = 2,2
+        x, y = 2, 2
         value = 3
-        self.world.set(x,y,value)
-        self.world.set(x,y-1,value)
-        self.world.set(x,y+1,value)
-        self.world.set(x-1,y,value)
-        self.world.set(x+1,y,value)
-        
-        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+        self.world.set(x, y, value)
+        self.world.set(x, y-1, value)
+        self.world.set(x, y+1, value)
+        self.world.set(x-1, y, value)
+        self.world.set(x+1, y, value)
+
+        count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
         if (count_zeros < 2) or (count_zeros > 3):
-            self.world.set(x,y,0)        
+            self.world.set(x, y, 0)
         else:
-            self.world.set(x,y,value)
+            self.world.set(x, y, value)
 
-        get_value = self.world.get(x,y)
-        self.assertEqual(get_value,0)  
-
+        get_value = self.world.get(x, y)
+        self.assertEqual(get_value, 0)
 
     def test_survival(self):
-        x,y = 2,2
+        x, y = 2, 2
         value = 3
-        self.world.set(x,y,value)
-        self.world.set(x,y-1,value)
-        self.world.set(x,y+1,value)
-        self.world.set(x-1,y,value)
-        
-        
-        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
-        if (count_zeros < 2) or (count_zeros > 3):
-            self.world.set(x,y,0)
-        else:
-            self.world.set(x,y,value)
+        self.world.set(x, y, value)
+        self.world.set(x, y-1, value)
+        self.world.set(x, y+1, value)
+        self.world.set(x-1, y, value)
 
-        get_value = self.world.get(x,y)
-        self.assertEqual(get_value,value)  
-    
+        count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+        if (count_zeros < 2) or (count_zeros > 3):
+            self.world.set(x, y, 0)
+        else:
+            self.world.set(x, y, value)
+
+        get_value = self.world.get(x, y)
+        self.assertEqual(get_value, value)
 
     def test_birth(self):
-        x,y = 2,2
+        x, y = 2, 2
         value = 0
-        self.world.set(x,y-1,value)
-        self.world.set(x,y+1,value)
-        self.world.set(x-1,y,value)
-        
-        
-        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+        self.world.set(x, y-1, value)
+        self.world.set(x, y+1, value)
+        self.world.set(x-1, y, value)
+
+        count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
         if value and ((count_zeros < 2) or (count_zeros > 3)):
-            self.world.set(x,y,0)
+            self.world.set(x, y, 0)
         elif ((count_zeros >= 2) or (count_zeros < 4)):
-            self.world.set(x,y,1)
+            self.world.set(x, y, 1)
         else:
-            self.world.set(x,y,value)
+            self.world.set(x, y, value)
 
-        get_value = self.world.get(x,y)
-        self.assertEqual(get_value,1)  
-
+        get_value = self.world.get(x, y)
+        self.assertEqual(get_value, 1)
 
     def test_entire_grid(self):
-        x1,y1 = 2,5
-        x2,y2 = 3,5
-        x3,y3 = 4,5
+        x1, y1 = 2, 5
+        x2, y2 = 3, 5
+        x3, y3 = 4, 5
 
         #  ---     -> should return |
 
         value = 1
-        self.world.set(x1,y1,value)
-        self.world.set(x2,y2,value)
-        self.world.set(x3,y3,value)
-        
+        self.world.set(x1, y1, value)
+        self.world.set(x2, y2, value)
+        self.world.set(x3, y3, value)
+
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
-                count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+                count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
                 if value and ((count_zeros < 2) or (count_zeros > 3)):
                     coordinatelist[y].append(0)
 
@@ -158,44 +151,37 @@ class TestWorld(unittest.TestCase):
                 else:
                     coordinatelist[y].append(value)
 
-
         for y in range(self.world.height):
             for x in range(self.world.width):
-                self.world.set(x,y,coordinatelist[y][x])
+                self.world.set(x, y, coordinatelist[y][x])
 
+        get_value_old1 = self.world.get(x1, y1)
+        get_value_old2 = self.world.get(x2, y2)
+        get_value_old3 = self.world.get(x3, y3)
 
+        self.assertEqual(get_value_old1, 0)
+        self.assertEqual(get_value_old2, 1)
+        self.assertEqual(get_value_old3, 0)
 
-        get_value_old1 = self.world.get(x1,y1)
-        get_value_old2 = self.world.get(x2,y2)
-        get_value_old3 = self.world.get(x3,y3)
-
-        self.assertEqual(get_value_old1,0)  
-        self.assertEqual(get_value_old2,1)  
-        self.assertEqual(get_value_old3,0)  
-
-
-        get_value_new1 = self.world.get(x1,y1+1)
-        get_value_new2 = self.world.get(x1,y1-1)        
-        self.assertEqual(get_value_new1,1)  
-        self.assertEqual(get_value_new2,1)  
-    
+        get_value_new1 = self.world.get(x1, y1+1)
+        get_value_new2 = self.world.get(x1, y1-1)
+        self.assertEqual(get_value_new1, 1)
+        self.assertEqual(get_value_new2, 1)
 
     def test_input_birth(self):
-        
-        x1,y1 = 5,5
+
+        x1, y1 = 5, 5
 
         birth = self.birth[1:]
 
-
         value = 1
-        self.world.set(x1,y1,value)
+        self.world.set(x1, y1, value)
 
-        
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
-                count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+                count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
 
                 if value and (str(count_zeros) not in birth):
                     coordinatelist[y].append(0)
@@ -206,40 +192,34 @@ class TestWorld(unittest.TestCase):
                 else:
                     coordinatelist[y].append(value)
 
-
         for y in range(self.world.height):
             for x in range(self.world.width):
-                self.world.set(x,y,coordinatelist[y][x])
+                self.world.set(x, y, coordinatelist[y][x])
 
+        var_get_neighbours = self.world.get_neighbours(x1, y1).count(0)
+        self.assertEqual(var_get_neighbours, 0)
 
-
-        var_get_neighbours = self.world.get_neighbours(x1,y1).count(0)
-        self.assertEqual(var_get_neighbours,0)  
-        
-        var_get_birth = self.world.get(x1,y1)
-        self.assertEqual(var_get_birth,0)  
-
+        var_get_birth = self.world.get(x1, y1)
+        self.assertEqual(var_get_birth, 0)
 
     def test_input_survival(self):
-        
-        x1,y1 = 5,5
-        x2,y2 = 5,6
-        
+
+        x1, y1 = 5, 5
+        x2, y2 = 5, 6
+
         birth = self.birth[1:]
         survival = self.survival[1:]
 
-
         value = 1
-        self.world.set(x1,y1,value)
-        self.world.set(x2,y2,value)
+        self.world.set(x1, y1, value)
+        self.world.set(x2, y2, value)
 
-        
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
-                count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
-                
+                count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+
                 if value and (str(count_zeros) not in survival):
                     coordinatelist[y].append(0)
 
@@ -249,41 +229,38 @@ class TestWorld(unittest.TestCase):
                 else:
                     coordinatelist[y].append(value)
 
-
         for y in range(self.world.height):
             for x in range(self.world.width):
-                self.world.set(x,y,coordinatelist[y][x])
+                self.world.set(x, y, coordinatelist[y][x])
 
-        var_get_survival1 = self.world.get(x1,y1)
-        self.assertEqual(var_get_survival1,1)  
+        var_get_survival1 = self.world.get(x1, y1)
+        self.assertEqual(var_get_survival1, 1)
 
-        var_get_survival2 = self.world.get(x2,y2)
-        self.assertEqual(var_get_survival2,1)  
+        var_get_survival2 = self.world.get(x2, y2)
+        self.assertEqual(var_get_survival2, 1)
 
 
     def test_decay(self):
-        
-        x1,y1 = 5,5
 
-        x2,y2 = 2,2
-        
-        
+        x1, y1 = 5, 5
+        x2, y2 = 2, 2
+
         birth = self.birth[1:]
         survival = self.survival[1:]
 
         value = 6
         value2 = 1
 
-        self.world.set(x1,y1,value)
-        self.world.set(x2,y2,value2)
+        self.world.set(x1, y1, value)
+        self.world.set(x2, y2, value2)
 
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
-                count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
-                
-                value = self.world.get(x,y)
+                count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+
+                value = self.world.get(x, y)
                 if value and (str(count_zeros) not in survival):
                     coordinatelist[y].append(value - 1)
 
@@ -293,21 +270,63 @@ class TestWorld(unittest.TestCase):
                 else:
                     coordinatelist[y].append(value)
 
+        for y in range(self.world.height):
+            for x in range(self.world.width):
+                self.world.set(x, y, coordinatelist[y][x])
+
+        var_get_decay = self.world.get(x1, y1)
+        self.assertEqual(var_get_decay, 5)
+
+        var_get_decay2 = self.world.get(x2, y2)
+        self.assertEqual(var_get_decay2, 0)
+
+
+
+    def test_survival_birth(self):
+
+        x1, y1 = 5, 5
+        x2, y2 = 2, 2
+
+        birth = self.birth[1:]
+        survival = self.survival[1:]
+        age = 6
+
+        value = 6
+        value2 = 4
+
+        self.world.set(x1, y1, value)
+        self.world.set(x2, y2, value2)
+
+        coordinatelist = []
+        for y in range(self.world.height):
+            coordinatelist.append([])
+            for x in range(self.world.width):
+                count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+
+                value = self.world.get(x, y)
+                if value and (str(count_zeros) not in survival):
+                    coordinatelist[y].append(value - 1)
+
+                elif str(count_zeros) in birth:
+                    coordinatelist[y].append(1)
+
+                else:
+                    coordinatelist[y].append(value)
 
         for y in range(self.world.height):
             for x in range(self.world.width):
-                self.world.set(x,y,coordinatelist[y][x])
-
-        var_get_decay = self.world.get(x1,y1)
-        self.assertEqual(var_get_decay,5)  
-
-        var_get_decay2 = self.world.get(x2,y2)
-        self.assertEqual(var_get_decay2, 0)  
+                self.world.set(x, y, coordinatelist[y][x])
 
 
-        
+
+        var_get_birth = self.world.get_neighbours(x1, y1).count(0)
+        self.assertEqual(var_get_birth, 8)
+        var_get_survival = self.world.get(x1,x2)
+        self.assertEqual(var_get_birth, 0)
+
+        var_get_birth2 = self.world.get_neighbours(x2, y2).count(0)
+        self.assertEqual(var_get_birth2, 0)
+
 
 if __name__ == '__main__':
     unittest.main()
-
-

@@ -45,7 +45,3 @@ class TestSimulator(TestCase):
         self.assertIsInstance(self.sim.get_world(), World)
         self.assertIs(self.sim.get_world(), world)
 
-        
-
-if __name__ == '__main__':
-    unittest.main()
