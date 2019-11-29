@@ -129,5 +129,41 @@ class TestWorld(unittest.TestCase):
         get_value = self.world.get(x,y)
         self.assertEqual(get_value,1)  
 
+    def test_entire_grid(self):
+        x,y = 2,2
+        x2,y2 = 2,3
+        x3,y3 = 2,4
+
+        #  ---     -> should return |
+
+        value = 1
+        self.world.set(x,y,value)
+        self.world.set(x2,y2,value)
+        self.world.set(x3,y3,value)
+        
+        
+        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+        if value and ((count_zeros < 2) or (count_zeros > 3)):
+            self.world.set(x,y,0)
+        elif ((count_zeros > 2) or (count_zeros < 4)):
+            self.world.set(x,y,1)
+        else:
+            self.world.set(x,y,value)
+
+
+        get_value_old1 = self.world.get(x,y)
+        get_value_old2 = self.world.get(x2,y2)
+        get_value_old3 = self.world.get(x3,y3)
+        self.assertEqual(get_value_old1,1)  
+        self.assertEqual(get_value_old2,0)  
+        self.assertEqual(get_value_old3,0)  
+
+
+        get_value_new1 = self.world.get(x+1,y)
+        get_value_new2 = self.world.get(x-1,y)        
+        self.assertEqual(get_value_new1,1)  
+        self.assertEqual(get_value_new2,1)  
+        
+
 if __name__ == '__main__':
     unittest.main()
