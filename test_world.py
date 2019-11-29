@@ -12,6 +12,8 @@ class TestWorld(unittest.TestCase):
         """
         self.width, self.height = 10, 12
         self.world = World(self.width, self.height)
+        input_BS = "B1/S1"
+        self.birth , self.survival = input_BS.split("/")
 
     def test_set(self):
         """
