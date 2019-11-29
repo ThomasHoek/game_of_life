@@ -65,6 +65,8 @@ class TestWorld(unittest.TestCase):
         
         if (8 - self.world.get_neighbours(x,y).count(0)) < 2:
             self.world.set(x,y,0)        
+        else:
+            self.world.set(x,y,value)
     
         get_value = self.world.get(x,y)
         self.assertEqual(get_value,0)  
