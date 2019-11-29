@@ -119,9 +119,9 @@ class TestWorld(unittest.TestCase):
         
         
         count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
-        if (count_zeros < 2) or (count_zeros > 3):
+        if value and ((count_zeros < 2) or (count_zeros > 3)):
             self.world.set(x,y,0)
-        elif (count_zeros > 2) or (count_zeros < 4):
+        elif ((count_zeros > 2) or (count_zeros < 4)):
             self.world.set(x,y,1)
         else:
             self.world.set(x,y,value)
