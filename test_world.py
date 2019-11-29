@@ -91,6 +91,23 @@ class TestWorld(unittest.TestCase):
         self.assertEqual(get_value,0)  
 
 
+    def test_survival(self):
+        x,y = 2,2
+        value = 3
+        self.world.set(x,y,value)
+        self.world.set(x,y-1,value)
+        self.world.set(x,y+1,value)
+        self.world.set(x-1,y,value)
+        
+        
+        count_zeros = (8 - self.world.get_neighbours(x,y).count(0))
+        if (count_zeros < 2) and (count_zeros > 3):
+            self.world.set(x,y,0)        
+        else:
+            self.world.set(x,y,value)
+
+        get_value = self.world.get(x,y)
+        self.assertEqual(get_value,value)  
     
 if __name__ == '__main__':
     unittest.main()
