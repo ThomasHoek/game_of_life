@@ -14,6 +14,8 @@ class TestWorld(unittest.TestCase):
         self.width, self.height = 10, 12
         self.world = World(self.width, self.height)
         input_BS = "B1/S1"
+        age = 6
+        self.age = age
         self.birth, self.survival = input_BS.split("/")
 
     def test_set(self):
@@ -239,7 +241,6 @@ class TestWorld(unittest.TestCase):
         var_get_survival2 = self.world.get(x2, y2)
         self.assertEqual(var_get_survival2, 1)
 
-
     def test_decay(self):
 
         x1, y1 = 5, 5
@@ -280,8 +281,6 @@ class TestWorld(unittest.TestCase):
         var_get_decay2 = self.world.get(x2, y2)
         self.assertEqual(var_get_decay2, 0)
 
-
-
     def test_survival_birth(self):
 
         x1, y1 = 5, 5
@@ -289,29 +288,35 @@ class TestWorld(unittest.TestCase):
 
         birth = self.birth[1:]
         survival = self.survival[1:]
-        age = 6
+        age = self.age
 
         value = 6
-        value2 = 4
+        value2 = 3
 
         self.world.set(x1, y1, value)
         self.world.set(x2, y2, value2)
 
+        
         coordinatelist = []
         for y in range(self.world.height):
             coordinatelist.append([])
             for x in range(self.world.width):
-                count_zeros = (8 - self.world.get_neighbours(x, y).count(0))
+                
 
-                value = self.world.get(x, y)
-                if value and (str(count_zeros) not in survival):
-                    coordinatelist[y].append(value - 1)
+                neighbour_list = self.world.get_neighbours(x, y)
+                count_zeros = (8 - neighbour_list.count(0))
 
-                elif str(count_zeros) in birth:
-                    coordinatelist[y].append(1)
+                curr_value = self.world.get(x, y)
+
+                
+                if curr_value and (str(count_zeros) not in survival):
+                    coordinatelist[y].append(curr_value - 1)
+
+                elif str(sum([1 if (x > 2 and x < (age-2) ) else 0 for x in neighbour_list])) in birth:
+                    coordinatelist[y].append(age)
 
                 else:
-                    coordinatelist[y].append(value)
+                    coordinatelist[y].append(curr_value)
 
         for y in range(self.world.height):
             for x in range(self.world.width):
@@ -321,8 +326,9 @@ class TestWorld(unittest.TestCase):
 
         var_get_birth = self.world.get_neighbours(x1, y1).count(0)
         self.assertEqual(var_get_birth, 8)
+
         var_get_survival = self.world.get(x1,x2)
-        self.assertEqual(var_get_birth, 0)
+        self.assertEqual(var_get_survival, 0)
 
         var_get_birth2 = self.world.get_neighbours(x2, y2).count(0)
         self.assertEqual(var_get_birth2, 0)
